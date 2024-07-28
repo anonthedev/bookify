@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, MouseEventHandler } from 'react';
-import { FaPlay, FaPause, FaVolumeUp } from "react-icons/fa"
+import { FaPlay, FaPause, FaVolumeUp} from "react-icons/fa"
 import { IoPlaySkipForward, IoPlaySkipBack } from "react-icons/io5";
 import { useAudioURL, useCurrentBookInfo, useBookInfo } from '@/zustand/state';
 import Toast from './Toast';
@@ -18,9 +18,11 @@ interface propType {
     currentTime: number;
     duration: number;
     canPlay: boolean;
+    playbackSpeed: number;
+    setPlaybackSpeed: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function AudioController({ onPlay, onPause, isPlaying, onVolumeChange, onSeek, currentTime, duration, canPlay }: propType) {
+export default function AudioController({ onPlay, onPause, isPlaying, onVolumeChange, onSeek, currentTime, duration, canPlay,playbackSpeed, setPlaybackSpeed }: propType) {
     const [volume, setVolume] = useState(100);
     const [isSeeking, setIsSeeking] = useState(false);
     const [showToast, setShowToast] = useState(false);
@@ -150,6 +152,15 @@ export default function AudioController({ onPlay, onPause, isPlaying, onVolumeCh
                             className="h-[2px] accent-yellow-500"
                         />
                     </div>
+                    {/* playbackSpeed */}
+                    <div className='flex flex-row items-center gap-3'>
+                       <select className='bg-transparent text-white' value={playbackSpeed} onChange={(e) => setPlaybackSpeed(parseFloat(e.target.value))}>
+                        <option value="0.5">0.5x</option>
+                        <option value="1">1x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2x</option>
+                      </select>
+                    </div>                     
                 </div>
                 <input
                     type="range"
