@@ -15,6 +15,7 @@ export default function AudioPlayer() {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [canPlay, setCanPlay] = useState<boolean>(false);
+    const [playbackSpeed, setPlaybackSpeed] = useState(1); //playbackspeed
 
     useEffect(() => {
         if (globalAudioURL) {
@@ -53,6 +54,13 @@ export default function AudioPlayer() {
             audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
         };
     }, []);
+    
+    //PlaybackSpeed
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.playbackRate = playbackSpeed;
+        }
+    }, [playbackSpeed]);
 
     // useEffect(() => {
     //     if (windowAvailable && 'mediaSession' in navigator && currentBookInfo) {
@@ -162,6 +170,8 @@ export default function AudioPlayer() {
                 onSeek={handleSeek}
                 currentTime={currentTime}
                 duration={duration}
+                playbackSpeed={playbackSpeed}
+                setPlaybackSpeed={setPlaybackSpeed} //playbackspeed
             />
         </div>
     );
